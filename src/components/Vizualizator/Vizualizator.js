@@ -1,45 +1,11 @@
 import {Link} from "react-router-dom";
-import {useEffect, useState} from 'react';
 import './Vizualizator.css';
-import {todayDateCalculate} from '../../utils/dateFormat';
-import sunriseApi from '../../utils/SunRiseAPI';
 
-function Vizualizator({latitude, longitude }) {
-
-    const [info, setInfo] = useState({});
-    const [civilTwilightBeginInPercent, setCivilTwilightBeginInPercent] = useState(30);
-    const [civilTwilightEndInPercent, setcivilTwilightEndInPercent] = useState(70);
-
-    const timeInPercents = function (time) {
-        let secondsSum;
-        time.includes('AM') ? secondsSum = 0 : secondsSum = 720;
-        const arr = time.split(':', 2);
-        arr.forEach((e, i) => {
-            if (i === 0) {
-                secondsSum += e * 60;
-            }
-            if (i === 1) {
-                secondsSum += +e;
-            }
-        })
-        let onePercent = 1440 / 100;
-        console.log(secondsSum / onePercent)
-        return secondsSum / onePercent;
-    }
-
-    const todayDate = todayDateCalculate();
-    useEffect(() => {
-        sunriseApi.getInfo(todayDate, latitude, longitude)
-            .then((res) => {
-                setInfo(res.results);
-                setCivilTwilightBeginInPercent(timeInPercents(res.results.civil_twilight_begin));
-                setcivilTwilightEndInPercent(timeInPercents(res.results.civil_twilight_end));
-            })
-    }, [todayDate])
+function Vizualizator({ info, date, civilTwilightBeginInPercent, civilTwilightEndInPercent }) {
 
     return (
         <div className={'main'}>
-            <h1 className={'main__title'}>{todayDate}</h1>
+            <h1 className={'main__title'}>{date}</h1>
             <p>sunrise: {info.sunrise}</p>
             <p>sunset: {info.sunset}</p>
             <p>length: {info.day_length}</p>
