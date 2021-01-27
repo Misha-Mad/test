@@ -1,0 +1,43 @@
+@import (reference) '../../utils/lessConstants';
+
+.main {
+  display: flex;
+  flex-direction: column;
+  font-family: "Arial Black", sans-serif;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+
+  &__title {
+    margin: 0 0 @line * 2 0;
+    font-size: @line * 4;
+    line-height: @line * 6;
+  }
+
+  &__subtitle {
+    width: 50%;
+    line-height: @line * 3;
+    text-align: center;
+    margin: 0 0 @line * 2 0;
+    font-size: @line * 2;
+  }
+
+  &__link {
+    width: 70px;
+    height: 70px;
+    background-color: #fff;
+    border-radius: 50%;
+    text-decoration: none;
+    color: @mainColor;
+    line-height: 70px;
+    text-align: center;
+    transition: all .3s linear;
+
+    &:hover {
+      background-color: darken(#fff, 20%);
+      color: lighten(@mainColor, 20%);
+      transition: all .3s linear;
+    }
+  }
+}

@@ -1,0 +1,38 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  font-family: "Arial Black", sans-serif;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+}
+.main__title {
+  margin: 0 0 20px 0;
+  font-size: 40px;
+  line-height: 60px;
+}
+.main__subtitle {
+  width: 50%;
+  line-height: 30px;
+  text-align: center;
+  margin: 0 0 20px 0;
+  font-size: 20px;
+}
+.main__link {
+  width: 70px;
+  height: 70px;
+  background-color: #fff;
+  border-radius: 50%;
+  text-decoration: none;
+  color: #1B2944;
+  line-height: 70px;
+  text-align: center;
+  transition: all 0.3s linear;
+}
+.main__link:hover {
+  background-color: #cccccc;
+  color: #38558d;
+  transition: all 0.3s linear;
+}
+/*# sourceMappingURL=Title.css.map */
