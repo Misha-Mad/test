@@ -1,12 +1,13 @@
 import {CONFIG_SUNRISE_API} from "./utils";
 
+
 class SunRiseAPI {
     constructor({baseUrl}) {
         this._baseUrl = baseUrl;
     }
 
-    getInfo(date) {
-        return fetch(`${this._baseUrl}&date=${date}`, {
+    getInfo(date, latitude, longitude) {
+        return fetch(`${this._baseUrl}?lat=${latitude}&lng=${longitude}&date=${date}`, {
             method: 'GET',
             headers: {
             }

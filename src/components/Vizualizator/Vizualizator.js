@@ -4,13 +4,13 @@ import './Vizualizator.css';
 import {todayDateCalculate} from '../../utils/dateFormat';
 import sunriseApi from '../../utils/SunRiseAPI';
 
-function Vizualizator() {
+function Vizualizator({latitude, longitude }) {
 
     const [info, setInfo] = useState({});
     const [civilTwilightBeginInPercent, setCivilTwilightBeginInPercent] = useState(30);
     const [civilTwilightEndInPercent, setcivilTwilightEndInPercent] = useState(70);
 
-    const timeInSeconds = function (time) {
+    const timeInPercents = function (time) {
         let secondsSum;
         time.includes('AM') ? secondsSum = 0 : secondsSum = 720;
         const arr = time.split(':', 2);
@@ -29,11 +29,11 @@ function Vizualizator() {
 
     const todayDate = todayDateCalculate();
     useEffect(() => {
-        sunriseApi.getInfo(todayDate)
+        sunriseApi.getInfo(todayDate, latitude, longitude)
             .then((res) => {
                 setInfo(res.results);
-                setCivilTwilightBeginInPercent(timeInSeconds(res.results.civil_twilight_begin));
-                setcivilTwilightEndInPercent(timeInSeconds(res.results.civil_twilight_end));
+                setCivilTwilightBeginInPercent(timeInPercents(res.results.civil_twilight_begin));
+                setcivilTwilightEndInPercent(timeInPercents(res.results.civil_twilight_end));
             })
     }, [todayDate])
 
