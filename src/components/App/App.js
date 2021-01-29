@@ -1,20 +1,21 @@
 import './App.css';
-import {useEffect, useState} from 'react';
-import {Switch, Route} from 'react-router-dom';
+import {useState, useEffect, useCallback} from 'react';
+import {Switch, Route, Redirect} from 'react-router-dom';
 import Title from '../Title/Title';
 import Vizualizator from '../Vizualizator/Vizualizator';
-import {todayDateCalculate} from '../../utils/dateFormat';
 import sunriseApi from "../../utils/SunRiseAPI";
 
 function App() {
     const [info, setInfo] = useState({});
     const [civilTwilightBeginInPercent, setCivilTwilightBeginInPercent] = useState(30);
     const [civilTwilightEndInPercent, setcivilTwilightEndInPercent] = useState(70);
-    const [date, setDate] = useState('1989-10-30');
-    const [latitude, setLatitude] = useState('59.9710000');
-    const [longitude, setLongitude] = useState('30, 3890000');
+    const [sunriseTime, setSunriseTime] = useState('00:00:00');
+    const [sunsetTime, setSunsetTime] = useState('00:00:00');
+    const [date, setDate] = useState('');
+    const [latitude, setLatitude] = useState('');
+    const [longitude, setLongitude] = useState('');
 
-    function timeInPercents (time) {
+    function timeInPercents(time) {
         let secondsSum;
         time.includes('AM') ? secondsSum = 0 : secondsSum = 720;
         const arr = time.split(':', 2);
@@ -27,28 +28,43 @@ function App() {
             }
         })
         let onePercent = 1440 / 100;
-        console.log(secondsSum / onePercent)
         return secondsSum / onePercent;
     }
 
-    useEffect(() => {
-        setDate(todayDateCalculate());
-        navigator.geolocation.getCurrentPosition(
-            function (position) {
-                setLatitude(position.coords.latitude.toFixed(7));
-                setLongitude(position.coords.longitude.toFixed(7));
-            }
-        );
-    }, [])
+    function formatTime(results) {
+        setSunriseTime(results.sunrise.replace(' AM', ''));
+        let newSunsetTime = results.sunset.replace(' PM', '').split(':');
+        newSunsetTime[0] = +newSunsetTime[0] + 12;
+        newSunsetTime = newSunsetTime.join(':');
+        setSunsetTime(newSunsetTime);
+    }
+
+    function todayDateCalculate() {
+        const todayDate = new Date();
+        return todayDate.getFullYear() + '-' + (todayDate.getMonth() + 1) + '-' + todayDate.getDate();
+    }
 
     useEffect(() => {
+        const newDate = todayDateCalculate();
+        setDate(newDate);
+        navigator.geolocation.getCurrentPosition((position) => {
+            setLatitude(position.coords.latitude.toFixed(7));
+            setLongitude(position.coords.longitude.toFixed(7));
+        });
+    },[])
+
+    const getInfo = useCallback(() => {
         sunriseApi.getInfo(date, latitude, longitude)
             .then((res) => {
                 setInfo(res.results);
                 setCivilTwilightBeginInPercent(timeInPercents(res.results.civil_twilight_begin));
                 setcivilTwilightEndInPercent(timeInPercents(res.results.civil_twilight_end));
+                formatTime(res.results);
             })
-    }, [date])
+            .catch(err => console.log(err))
+    },[date, latitude, longitude])
+
+
 
     return (
         <div className='App'>
@@ -57,7 +73,17 @@ function App() {
                     <Title/>
                 </Route>
                 <Route path="/day-length">
-                    <Vizualizator info={info} date={date} civilTwilightBeginInPercent={civilTwilightBeginInPercent} civilTwilightEndInPercent={civilTwilightEndInPercent}/>
+                    {longitude !== '' ?
+                    <Vizualizator
+                        onGetInfo={getInfo}
+                        info={info}
+                        date={date}
+                        civilTwilightBeginInPercent={civilTwilightBeginInPercent}
+                        civilTwilightEndInPercent={civilTwilightEndInPercent}
+                        sunriseTime={sunriseTime}
+                        sunsetTime={sunsetTime}
+                    />
+                    : <Redirect to={'/'}/>}
                 </Route>
             </Switch>
         </div>
