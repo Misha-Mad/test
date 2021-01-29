@@ -3,6 +3,7 @@ import {useState, useEffect, useCallback} from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import Title from '../Title/Title';
 import Vizualizator from '../Vizualizator/Vizualizator';
+import Loader from '../Loader/Loader';
 import sunriseApi from "../../utils/SunRiseAPI";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
     const [date, setDate] = useState('');
     const [latitude, setLatitude] = useState('');
     const [longitude, setLongitude] = useState('');
+    const [isLoading, setLoading] = useState(false);
 
     function timeInPercents(time) {
         let secondsSum;
@@ -51,9 +53,10 @@ function App() {
             setLatitude(position.coords.latitude.toFixed(7));
             setLongitude(position.coords.longitude.toFixed(7));
         });
-    },[])
+    }, [])
 
     const getInfo = useCallback(() => {
+        setLoading(true);
         sunriseApi.getInfo(date, latitude, longitude)
             .then((res) => {
                 setInfo(res.results);
@@ -61,9 +64,11 @@ function App() {
                 setcivilTwilightEndInPercent(timeInPercents(res.results.civil_twilight_end));
                 formatTime(res.results);
             })
+            .then(()=> setTimeout(()=> {
+                setLoading(false)
+            }, 3000))
             .catch(err => console.log(err))
-    },[date, latitude, longitude])
-
+    }, [date, latitude, longitude])
 
 
     return (
@@ -73,17 +78,18 @@ function App() {
                     <Title/>
                 </Route>
                 <Route path="/day-length">
-                    {longitude !== '' ?
-                    <Vizualizator
-                        onGetInfo={getInfo}
-                        info={info}
-                        date={date}
-                        civilTwilightBeginInPercent={civilTwilightBeginInPercent}
-                        civilTwilightEndInPercent={civilTwilightEndInPercent}
-                        sunriseTime={sunriseTime}
-                        sunsetTime={sunsetTime}
-                    />
-                    : <Redirect to={'/'}/>}
+                    {longitude || latitude !== '' ?
+                        <Vizualizator
+                            isLoading={isLoading}
+                            onGetInfo={getInfo}
+                            info={info}
+                            date={date}
+                            civilTwilightBeginInPercent={civilTwilightBeginInPercent}
+                            civilTwilightEndInPercent={civilTwilightEndInPercent}
+                            sunriseTime={sunriseTime}
+                            sunsetTime={sunsetTime}
+                        />
+                        : <Redirect to={'/'}/>}
                 </Route>
             </Switch>
         </div>
