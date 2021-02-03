@@ -79,7 +79,7 @@ function Vizualizator({
                     <p>Sunset: {sunsetTime}</p>
                     <p>Length: {info.day_length}</p>
                     <div className={'main__diagramma'}
-                         style={{background: `linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,212,255,1) ${civilTwilightBeginInPercent}%, rgba(0,212,240,1) ${civilTwilightEndInPercent}%, rgba(2,0,36,1) 100%)`}}/>
+                         style={{background: `linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,212,255,1) ${civilTwilightBeginInPercent}%, rgba(0,212,240,1) ${civilTwilightEndInPercent}%, rgba(0,0,0,1) 100%)`}}/>
                     <div className={'main__dateControls'}>
                         <button disabled={disabledWeekAgoButton} className={'main__dateButton'} onClick={handleGetDataWeekAgo}>- 7 days</button>
                         <button disabled={disabledDayAgoButton} className={'main__dateButton'} onClick={handleGetDataDayAgo}>- 1 day</button>

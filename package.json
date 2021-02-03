@@ -1,9 +1,5 @@
 {
-<<<<<<< Updated upstream
-  "homepage" : " https://misha-mad.github.io/test/",
-=======
   "homepage" : "https://misha-mad.github.io/test",
->>>>>>> Stashed changes
   "name": "test",
   "version": "0.1.0",
   "private": true,
