@@ -24,6 +24,11 @@
   caret-color: transparent;
   .neomorphGradient(#f0f0f0, #cacaca);
 
+  &:disabled:hover {
+    .neomorphGradient(#f0f0f0, #cacaca);
+    cursor: default;
+  }
+
   &:hover {
     .neomorphGradient(#cacaca, #f0f0f0);
   }

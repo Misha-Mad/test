@@ -3,7 +3,6 @@ import {useState, useEffect, useCallback} from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import Title from '../Title/Title';
 import Vizualizator from '../Vizualizator/Vizualizator';
-import Loader from '../Loader/Loader';
 import sunriseApi from "../../utils/SunRiseAPI";
 
 function App() {
@@ -41,8 +40,9 @@ function App() {
         setSunsetTime(newSunsetTime);
     }
 
-    function todayDateCalculate() {
+    function todayDateCalculate(days = 0) {
         const todayDate = new Date();
+        todayDate.setDate(todayDate.getDate() + days);
         return todayDate.getFullYear() + '-' + (todayDate.getMonth() + 1) + '-' + todayDate.getDate();
     }
 
@@ -84,10 +84,12 @@ function App() {
                             onGetInfo={getInfo}
                             info={info}
                             date={date}
+                            onDate={setDate}
                             civilTwilightBeginInPercent={civilTwilightBeginInPercent}
                             civilTwilightEndInPercent={civilTwilightEndInPercent}
                             sunriseTime={sunriseTime}
                             sunsetTime={sunsetTime}
+                            onTodayDateCalculate={todayDateCalculate}
                         />
                         : <Redirect to={'/'}/>}
                 </Route>
