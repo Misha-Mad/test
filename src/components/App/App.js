@@ -1,6 +1,6 @@
 import './App.css';
 import {useState, useEffect, useCallback} from 'react';
-import {Switch, Route, Redirect} from 'react-router-dom';
+import {HashRouter, Switch, Route, Redirect} from 'react-router-dom';
 import Title from '../Title/Title';
 import Vizualizator from '../Vizualizator/Vizualizator';
 import sunriseApi from "../../utils/SunRiseAPI";
@@ -72,6 +72,7 @@ function App() {
 
 
     return (
+        <HashRouter basename={'/'}>
         <div className='App'>
             <Switch>
                 <Route exact path="/">
@@ -95,6 +96,7 @@ function App() {
                 </Route>
             </Switch>
         </div>
+        </HashRouter>
     );
 }
 
