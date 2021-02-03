@@ -33,7 +33,14 @@ function Vizualizator({
                     <p>Length: {info.day_length}</p>
                     <div className={'main__diagramma'}
                          style={{background: `linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,212,255,1) ${civilTwilightBeginInPercent}%, rgba(0,212,240,1) ${civilTwilightEndInPercent}%, rgba(2,0,36,1) 100%)`}}/>
-                </>}
+                    <div className={'main__dateControls'}>
+                        <button className={'main__dateButton'}>- 7 days</button>
+                        <button className={'main__dateButton'}>- 1 day</button>
+                        <button className={'main__dateButton'}>+ 1 day</button>
+                        <button className={'main__dateButton'}>+ 7 days</button>
+                    </div>
+                </>
+            }
         </div>
     )
 }

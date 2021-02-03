@@ -42,15 +42,15 @@
     background-color: @mainColor;
     border-radius: 50%;
     background: linear-gradient(145deg, #cacaca, #f0f0f0);
-    box-shadow:  9px 9px 18px #bebebe,
+    box-shadow: 9px 9px 18px #bebebe,
       -9px -9px 18px #ffffff;
-
-
 
     &:hover {
       color: darken(@mainColor, 60%);
       box-shadow: inset 9px 9px 18px #bebebe,
-        inset -9px -9px 18px #fff;
+        inset -9px -9px 18px #fff,
+        9px 9px 18px #bebebe,
+        -9px -9px 18px #ffffff;
     }
   }
 }

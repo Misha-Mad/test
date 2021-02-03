@@ -40,6 +40,6 @@
 }
 .main__link:hover {
   color: #474747;
-  box-shadow: inset 9px 9px 18px #bebebe, inset -9px -9px 18px #fff;
+  box-shadow: inset 9px 9px 18px #bebebe, inset -9px -9px 18px #fff, 9px 9px 18px #bebebe, -9px -9px 18px #ffffff;
 }
 /*# sourceMappingURL=Title.css.map */
