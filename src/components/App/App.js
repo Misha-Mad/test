@@ -66,7 +66,7 @@ function App() {
             })
             .then(()=> setTimeout(()=> {
                 setLoading(false)
-            }, 3000))
+            }, 2000))
             .catch(err => console.log(err))
     }, [date, latitude, longitude])
 
